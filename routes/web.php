@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -14,6 +15,15 @@ Route::middleware(['auth', 'user'])->group(function () {
 
 Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/admin/dashboard', [DashboardController::class, 'admindashboard'])->name('admin.dashboard');
+
+    Route::get('/admin/users', [UserController::class, 'list'])->name('user.list');
+    Route::get('/admin/users/create', [UserController::class, 'create'])->name(
+        'user.create'
+    );
+    Route::get('/admin/users/edit/{id}', [UserController::class, 'edit'])->name('user.list');
+    Route::post('/admin/users/save', [UserController::class, 'save'])->name('user.save');
+    Route::post('/admin/users/delete', [UserController::class, 'delete'])->name('user.delete');
+    Route::post('/admin/users/update', [UserController::class, 'update'])->name('user.update');
 });
 
 Route::middleware(['auth', 'agent'])->group(function () {

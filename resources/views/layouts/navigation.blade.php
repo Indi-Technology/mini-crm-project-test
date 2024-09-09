@@ -6,7 +6,7 @@
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
                     <a href="{{ route('dashboard') }}">
-                        <x-application-logo class="block h-9 w-auto fill-current text-gray-800 dark:text-gray-200" />
+                        <h1 class="font-bold text-lg">TicketSystem</h1>
                     </a>
                 </div>
 
@@ -16,6 +16,22 @@
                         {{ __('Dashboard') }}
                     </x-nav-link>
                 </div>
+
+               @if (auth()->user()->role === "admin")
+                    <div  class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                        <x-nav-link href="/admin/users" :active="request()->is('admin/users*')">
+                            {{ __('Users') }}
+                        </x-nav-link>
+                    </div>
+                @elseif (auth()->user()->role === "agent")
+                    AGENT
+                @else
+                    <div  class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                        <x-nav-link href="/tickets">
+                            {{ __('Tickets') }}
+                        </x-nav-link>
+                    </div>
+                @endif
 
             </div>
 
