@@ -22,7 +22,7 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/admin/users/create', [UserController::class, 'create'])->name(
         'user.create'
     );
-    Route::get('/admin/users/edit/{id}', [UserController::class, 'edit'])->name('user.list');
+    Route::get('/admin/users/edit/{id}', [UserController::class, 'edit'])->name('user.edit');
     Route::post('/admin/users/save', [UserController::class, 'save'])->name('user.save');
     Route::post('/admin/users/delete', [UserController::class, 'delete'])->name('user.delete');
     Route::post('/admin/users/update', [UserController::class, 'update'])->name('user.update');
@@ -30,11 +30,16 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/admin/labels', [LabelController::class, 'list'])->name('label.list');
     Route::get('/admin/labels/create', [LabelController::class, 'create'])->name('label.list');
     Route::post('/admin/labels/save', [LabelController::class, 'save'])->name('label.save');
-    Route::get('/admin/labels/edit/{id}', [LabelController::class, 'edit'])->name('label.list');
+    Route::get('/admin/labels/edit/{id}', [LabelController::class, 'edit'])->name('label.edit');
     Route::post('/admin/labels/delete', [LabelController::class, 'delete'])->name('label.delete');
     Route::post('/admin/labels/update', [LabelController::class, 'update'])->name('label.update');
 
     Route::get('/admin/categories', [CategoryController::class, 'list'])->name('category.list');
+    Route::get('/admin/categories/create', [CategoryController::class, 'create'])->name('category.create');
+    Route::post('/admin/categories/save', [CategoryController::class, 'save'])->name('category.save');
+    Route::get('/admin/categories/edit/{id}', [CategoryController::class, 'edit'])->name('category.edit');
+    Route::post('/admin/categories/delete', [CategoryController::class, 'delete'])->name('category.delete');
+    Route::post('/admin/categories/update', [CategoryController::class, 'update'])->name('category.update');
 });
 
 Route::middleware(['auth', 'agent'])->group(function () {

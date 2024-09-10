@@ -34,29 +34,37 @@
                                 @php
                                     $index=1;
                                 @endphp
-                                @foreach ($categories as $category)
-                                    <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white text-center">
-                                            <?= $index++ . "." ?>
-                                        </th>
-                                        <td class="px-6 py-4">
-                                            {{ $category->category_name }}
-                                        </td>
-                                        <td class="px-6 py-4">
-                                            {{ $category->created_at }}
-                                        </td>
-                                        <td class="px-6 py-4 text-center">
-                                            <div class="flex justify-center space-x-2">
-                                                <a class="bg-yellow-500 font-bold text-black px-4 py-1 rounded shadow-sm" href="{{ "/admin/categories/edit/" . $category->id }}">Edit</a>
-                                                <form action="/admin/categories/delete" method="post">
-                                                    @csrf
-                                                    <input type="hidden" name="id" value="{{ $category->id }}">
-                                                    <button class="bg-red-500 font-bold text-white px-4 py-1 rounded shadow-sm" type="submit">Delete</button>
-                                                </form>
-                                            </div>
+                                @if($categories->isEmpty())
+                                    <tr>
+                                        <td colspan="4" class="px-6 py-4 text-center text-gray-500 dark:text-gray-400">
+                                            Not Found Category
                                         </td>
                                     </tr>
-                                @endforeach
+                                @else
+                                    @foreach ($categories as $category)
+                                        <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                                            <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white text-center">
+                                                <?= $index++ . "." ?>
+                                            </th>
+                                            <td class="px-6 py-4">
+                                                {{ $category->category_name }}
+                                            </td>
+                                            <td class="px-6 py-4">
+                                                {{ $category->created_at }}
+                                            </td>
+                                            <td class="px-6 py-4 text-center">
+                                                <div class="flex justify-center space-x-2">
+                                                    <a class="bg-yellow-500 font-bold text-black px-4 py-1 rounded shadow-sm" href="{{ "/admin/categories/edit/" . $category->id }}">Edit</a>
+                                                    <form action="/admin/categories/delete" method="post">
+                                                        @csrf
+                                                        <input type="hidden" name="id" value="{{ $category->id }}">
+                                                        <button class="bg-red-500 font-bold text-white px-4 py-1 rounded shadow-sm" type="submit">Delete</button>
+                                                    </form>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                @endif
                             </tbody>
                         </table>
                     </div>
@@ -91,13 +99,13 @@
                 event.preventDefault(); 
                 
                 Swal.fire({
-                    title: 'Apakah anda yakin untuk menghapus?',
-                    text: "Setelah data terhapus, maka data tidak bisa dikembalikan",
+                    title: 'Are you sure you want to delete?',
+                    text: "Once data is deleted, it cannot be recovered.",
                     icon: 'warning',
                     showCancelButton: true,
                     confirmButtonColor: '#4e73df',
                     cancelButtonColor: '#e74a3b',
-                    confirmButtonText: 'Ya, hapus data'
+                    confirmButtonText: 'Yes, Delete Data'
                 }).then((result) => {
                     if (result.isConfirmed) {
                         form.submit(); 
