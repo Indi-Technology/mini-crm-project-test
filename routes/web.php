@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\LabelController;
 use App\Http\Controllers\ProfileController;
@@ -32,6 +33,8 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/admin/labels/edit/{id}', [LabelController::class, 'edit'])->name('label.list');
     Route::post('/admin/labels/delete', [LabelController::class, 'delete'])->name('label.delete');
     Route::post('/admin/labels/update', [LabelController::class, 'update'])->name('label.update');
+
+    Route::get('/admin/categories', [CategoryController::class, 'list'])->name('category.list');
 });
 
 Route::middleware(['auth', 'agent'])->group(function () {

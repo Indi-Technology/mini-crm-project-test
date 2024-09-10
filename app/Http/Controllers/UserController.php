@@ -28,11 +28,18 @@ class UserController extends Controller
 
         return view("admin.users.create", $data);
     }
-    public function edit($id): View
+    public function edit($id): View|RedirectResponse
     {
+        $user = User::find($id);
+
+
+        if ($user->id === Auth::id()) {
+            return redirect('/admin/users')->with('error', 'Cannot edit yourself from here, please use profile page');
+        }
+
         $data = [
             'title' => "Edit User",
-            'user' => User::find($id)
+            'user' => $user
         ];
 
         return view("admin.users.edit", $data);
@@ -57,19 +64,29 @@ class UserController extends Controller
     {
         $id = $request->id;
 
+        if ($id == Auth::id()) {
+            return redirect("/admin/users")->with('error', 'Cannot delete yourself from here, please use profile page');
+        }
+
         User::where('id', $id)->delete();
 
         return redirect("/admin/users")->with('success', "User Successfully Deleted");
     }
     public function update(Request $request): RedirectResponse
     {
+        $id = $request->id;
+
+        if ($id == Auth::id()) {
+            return redirect("/admin/users")->with('error', 'Cannot edit yourself from here, please use profile page');
+        }
+
         $validate = $request->validate([
             'name' => 'required|string|max:255',
-            'email' => 'required|email|max:255|unique:users,email,' . $request->id . ',id',
+            'email' => 'required|email|max:255|unique:users,email,' . $id . ',id',
             'role' => ['required', Rule::in(['admin', 'agent', 'user'])],
         ]);
 
-        $users = User::find($request->id);
+        $users = User::find($id);
 
         $users->update([
             'name' => $validate['name'],
