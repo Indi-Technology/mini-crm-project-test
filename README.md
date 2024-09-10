@@ -25,5 +25,5 @@ User Side :
 ## Database Structure
 
 <p align="center" width="100%">
-    <img width="100%" src="./docs/docs.png"> 
+    <img width="100%" src="./docs/docs-upd-1.png"> 
 </p>
