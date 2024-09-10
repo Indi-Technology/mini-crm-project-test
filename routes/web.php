@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\LabelController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
@@ -24,6 +25,13 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::post('/admin/users/save', [UserController::class, 'save'])->name('user.save');
     Route::post('/admin/users/delete', [UserController::class, 'delete'])->name('user.delete');
     Route::post('/admin/users/update', [UserController::class, 'update'])->name('user.update');
+
+    Route::get('/admin/labels', [LabelController::class, 'list'])->name('label.list');
+    Route::get('/admin/labels/create', [LabelController::class, 'create'])->name('label.list');
+    Route::post('/admin/labels/save', [LabelController::class, 'save'])->name('label.save');
+    Route::get('/admin/labels/edit/{id}', [LabelController::class, 'edit'])->name('label.list');
+    Route::post('/admin/labels/delete', [LabelController::class, 'delete'])->name('label.delete');
+    Route::post('/admin/labels/update', [LabelController::class, 'update'])->name('label.update');
 });
 
 Route::middleware(['auth', 'agent'])->group(function () {

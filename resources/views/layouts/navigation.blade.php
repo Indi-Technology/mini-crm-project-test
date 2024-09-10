@@ -19,10 +19,15 @@
 
                @if (auth()->user()->role === "admin")
                     <div  class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                        <x-nav-link href="/admin/labels" :active="request()->is('admin/labels*')">
+                            {{ __('Labels') }}
+                        </x-nav-link>
+                    </div>
+                    <div  class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                         <x-nav-link href="/admin/users" :active="request()->is('admin/users*')">
                             {{ __('Users') }}
                         </x-nav-link>
-                    </div>
+                    </div>  
                 @elseif (auth()->user()->role === "agent")
                     AGENT
                 @else
