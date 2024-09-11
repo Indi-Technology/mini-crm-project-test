@@ -34,29 +34,38 @@
                                 @php
                                     $index=1;
                                 @endphp
-                                @foreach ($labels as $label)
-                                    <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white text-center">
-                                            <?= $index++ . "." ?>
-                                        </th>
-                                        <td class="px-6 py-4">
-                                            {{ $label->label_name }}
-                                        </td>
-                                        <td class="px-6 py-4">
-                                            {{ $label->created_at }}
-                                        </td>
-                                        <td class="px-6 py-4 text-center">
-                                            <div class="flex justify-center space-x-2">
-                                                <a class="bg-yellow-500 font-bold text-black px-4 py-1 rounded shadow-sm" href="{{ "/admin/labels/edit/" . $label->id }}">Edit</a>
-                                                <form action="/admin/labels/delete" method="post">
-                                                    @csrf
-                                                    <input type="hidden" name="id" value="{{ $label->id }}">
-                                                    <button class="bg-red-500 font-bold text-white px-4 py-1 rounded shadow-sm" type="submit">Delete</button>
-                                                </form>
-                                            </div>
+                                @if($labels->isEmpty())
+                                    <tr>
+                                        <td colspan="4" class="px-6 py-4 text-center text-gray-500 dark:text-gray-400">
+                                            Label Not Found 
                                         </td>
                                     </tr>
-                                @endforeach
+                                @else
+                                    @foreach ($labels as $label)
+                                        <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                                            <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white text-center">
+                                                <?= $index++ . "." ?>
+                                            </th>
+                                            <td class="px-6 py-4">
+                                                {{ $label->label_name }}
+                                            </td>
+                                            <td class="px-6 py-4">
+                                                {{ $label->created_at }}
+                                            </td>
+                                            <td class="px-6 py-4 text-center">
+                                                <div class="flex justify-center space-x-2">
+                                                    <a class="bg-yellow-500 font-bold text-black px-4 py-1 rounded shadow-sm" href="{{ "/admin/labels/edit/" . $label->id }}">Edit</a>
+                                                    <form action="/admin/labels/delete" method="post">
+                                                        @csrf
+                                                        <input type="hidden" name="id" value="{{ $label->id }}">
+                                                        <button class="bg-red-500 font-bold text-white px-4 py-1 rounded shadow-sm" type="submit">Delete</button>
+                                                    </form>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                @endif
+                               
                             </tbody>
                         </table>
                     </div>

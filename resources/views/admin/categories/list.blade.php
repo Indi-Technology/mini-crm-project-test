@@ -37,7 +37,7 @@
                                 @if($categories->isEmpty())
                                     <tr>
                                         <td colspan="4" class="px-6 py-4 text-center text-gray-500 dark:text-gray-400">
-                                            Not Found Category
+                                            Category Not Found 
                                         </td>
                                     </tr>
                                 @else
