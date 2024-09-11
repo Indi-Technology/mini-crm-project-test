@@ -4,6 +4,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\LabelController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\TicketController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -13,6 +14,10 @@ Route::get('/', function () {
 
 Route::middleware(['auth', 'user'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'userdashboard'])->name('dashboard');
+
+    Route::get('/tickets', [TicketController::class, 'list'])->name('ticket.list');
+    Route::get('/tickets/create', [TicketController::class, 'create'])->name('ticket.create');
+    Route::post('/tickets/save', [TicketController::class, 'save'])->name('ticket.save');
 });
 
 Route::middleware(['auth', 'admin'])->group(function () {
