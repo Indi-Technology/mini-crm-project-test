@@ -7,7 +7,7 @@ Assesment Project Fullstack Web Developer Intern INDI Technology
 Admin Side :
 
 -   CRUD Users
--   CRUD Tickets (Include assign agent to tickets)
+-   Update & Delete Tickets (Include assign agent to tickets)
 -   CRUD Label
 -   CRUD Category
 -   Create & Update Comment in <b>all</b> support ticket
