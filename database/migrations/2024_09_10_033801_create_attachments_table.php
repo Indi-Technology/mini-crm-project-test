@@ -14,11 +14,10 @@ return new class extends Migration
         Schema::create('attachments', function (Blueprint $table) {
             $table->id();
             $table->string('file_name');
-            $table->foreignId('ticket_id');
+            $table->string('file_path');
+            $table->integer('attachable_id');
+            $table->string('attachable_type');
             $table->timestamps();
-
-
-            $table->foreign('ticket_id')->references('id')->on('tickets')->onDelete('cascade');
         });
     }
 

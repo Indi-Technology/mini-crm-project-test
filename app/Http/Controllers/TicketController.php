@@ -7,7 +7,6 @@ use App\Models\Label;
 use App\Models\Ticket;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
 
 class TicketController extends Controller
@@ -15,7 +14,8 @@ class TicketController extends Controller
     public function list()
     {
         $data = [
-            'title' => 'Support Tickets'
+            'title' => 'Support Tickets',
+            'tickets' => Ticket::with(['categories', 'labels'])->where('user_id', Auth::id())->orderBy('created_at', 'desc')->paginate(10)
         ];
 
         return view('user.tickets.list', $data);
@@ -68,6 +68,20 @@ class TicketController extends Controller
                 'category_id' => (int)$category
             ]);
         }
+
+        $attachments = $request->file('attachments');
+
+        if ($attachments) {
+            foreach ($attachments as $attachment) {
+                $path = $attachment->store('attachments', 'public');
+
+                $ticket->attachments()->create([
+                    'file_name' => $attachment->getClientOriginalName(),
+                    'file_path' => $path,
+                ]);
+            }
+        }
+
 
 
         $ticket->labels()->attach($labels);

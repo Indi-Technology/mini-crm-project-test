@@ -42,40 +42,61 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                {{-- @php
+                                @php
                                     $index=1;
                                 @endphp
-                                @if($categories->isEmpty())
+                                @if($tickets->isEmpty())
                                     <tr>
-                                        <td colspan="4" class="px-6 py-4 text-center text-gray-500 dark:text-gray-400">
+                                        <td colspan="8" class="px-6 py-4 text-center text-gray-500 dark:text-gray-400">
                                             Category Not Found 
                                         </td>
                                     </tr>
                                 @else
-                                    @foreach ($categories as $category)
+                                    @foreach ($tickets as $ticket)
                                         <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                                             <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white text-center">
                                                 <?= $index++ . "." ?>
                                             </th>
                                             <td class="px-6 py-4">
-                                                {{ $category->category_name }}
+                                                {{ "#" . $ticket->id }}
                                             </td>
                                             <td class="px-6 py-4">
-                                                {{ $category->created_at }}
+                                                {{ $ticket->title }}
+                                            </td>
+                                            <td class="px-6 py-4">
+                                                @foreach ($ticket->categories as $categories)
+                                                     <span class="bg-gray-100 text-gray-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-gray-900 dark:text-gray-300 capitalize">{{ $categories->category_name }}</span>
+                                                @endforeach
+                                            </td>
+                                            <td class="px-6 py-4">
+                                                @if ($ticket->priority == "urgent")
+                                                    <span class="bg-red-100 text-red-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-red-900 dark:text-red-300 capitalize">{{ $ticket->priority }}</span>
+                                                @elseif ($ticket->priority == "high")
+                                                    <span class="bg-orange-100 text-orange-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-orange-900 dark:text-orange-300 capitalize">{{ $ticket->priority }}</span>
+                                                @elseif ($ticket->priority == "normal")
+                                                    <span class="bg-yellow-100 text-yellow-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-yellow-900 dark:text-yellow-300 capitalize">{{ $ticket->priority }}</span>
+                                                @else
+                                                    <span class="bg-blue-100 text-blue-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300 capitalize">{{ $ticket->priority }}</span>
+                                                @endif
+                                            </td>
+                                            <td class="px-6 py-4">
+                                                @if ($ticket->status == "open")
+                                                    <span class="bg-green-100 text-green-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300 capitalize">{{ $ticket->status }}</span>
+                                                @else
+                                                    <span class="bg-green-100 text-green-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300 capitalize">{{ $ticket->status }}</span>
+                                                @endif
+                                            </td>
+                                            <td class="px-6 py-4">
+                                                {{ $ticket->updated_at }}
                                             </td>
                                             <td class="px-6 py-4 text-center">
                                                 <div class="flex justify-center space-x-2">
-                                                    <a class="bg-yellow-500 font-bold text-black px-4 py-1 rounded shadow-sm" href="{{ "/admin/categories/edit/" . $category->id }}">Edit</a>
-                                                    <form action="/admin/categories/delete" method="post">
-                                                        @csrf
-                                                        <input type="hidden" name="id" value="{{ $category->id }}">
-                                                        <button class="bg-red-500 font-bold text-white px-4 py-1 rounded shadow-sm" type="submit">Delete</button>
-                                                    </form>
+                                                    <a class="bg-green-500 font-bold text-white px-4 py-1 rounded shadow-sm" href="{{ "/tickets/detail/" . $ticket->id }}">View</a>
                                                 </div>
                                             </td>
                                         </tr>
                                     @endforeach
-                                @endif --}}
+                                @endif
                             </tbody>
                         </table>
                     </div>
