@@ -102,7 +102,7 @@
                     </div>
 
                     <div class="mt-6">
-                        {{-- {{ $categories->links() }} --}}
+                        {{ $tickets->links() }}
                     </div>
                 </div>
 
@@ -118,6 +118,15 @@
             title: 'Success!',
             text: '{{ session('success') }}',
             icon: 'success',
+            confirmButtonText: 'OK'
+        });
+    @endif
+
+    @if(session('error'))
+        Swal.fire({
+            title: 'Error!',
+            text: '{{ session('error') }}',
+            icon: 'error',
             confirmButtonText: 'OK'
         });
     @endif

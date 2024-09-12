@@ -89,4 +89,21 @@ class TicketController extends Controller
 
         return redirect('/tickets')->with('success', 'Ticket successfully created');
     }
+
+    public function detail($id)
+    {
+        $ticket = Ticket::with(['categories', 'labels', 'assigned_agent', 'attachments'])->findOrFail($id);
+
+        if ($ticket->user_id != Auth::id()) {
+            return redirect('/tickets')->with('error', "You are not authorized to access this ticket");
+        }
+
+
+        $data = [
+            'title' => 'Support Ticket Detail',
+            'ticket' => $ticket
+        ];
+
+        return view('user.tickets.detail', $data);
+    }
 }
