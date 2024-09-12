@@ -39,7 +39,7 @@ class TicketController extends Controller
             'labels' => 'required|array|min:1',
             'categories' => 'required|array|min:1',
             'priority' => ['required', Rule::in(['low', 'normal', 'high', 'urgent'])],
-            'attachments.*' => 'nullable|file|mimes:jpg,jpeg,png,gif,svg,pdf|max:2048'
+            'attachments.*' => 'nullable|file|mimes:jpg,jpeg,png,gif,svg|max:2048'
         ]);
 
 
@@ -92,12 +92,14 @@ class TicketController extends Controller
 
     public function detail($id)
     {
-        $ticket = Ticket::with(['categories', 'labels', 'assigned_agent', 'attachments'])->findOrFail($id);
+        $ticket = Ticket::with(['categories', 'labels', 'assigned_agent', 'attachments', 'comments' => function ($query) {
+            $query->orderBy('created_at', 'asc')->with('user');
+        }])->findOrFail($id);
+
 
         if ($ticket->user_id != Auth::id()) {
             return redirect('/tickets')->with('error', "You are not authorized to access this ticket");
         }
-
 
         $data = [
             'title' => 'Support Ticket Detail',

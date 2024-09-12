@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\CommentController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\LabelController;
 use App\Http\Controllers\ProfileController;
@@ -19,6 +20,8 @@ Route::middleware(['auth', 'user'])->group(function () {
     Route::get('/tickets/create', [TicketController::class, 'create'])->name('ticket.create');
     Route::get('/tickets/detail/{id}', [TicketController::class, 'detail'])->name('ticket.detail');
     Route::post('/tickets/save', [TicketController::class, 'save'])->name('ticket.save');
+
+    Route::post('/comments/save', [CommentController::class, 'save'])->name('comment.save');
 });
 
 Route::middleware(['auth', 'admin'])->group(function () {
