@@ -34,6 +34,19 @@ class AdminTicketController extends Controller
 
         return view('admin.tickets.edit', $data);
     }
+    public function detail($id)
+    {
+        $ticket = Ticket::with(['categories', 'labels', 'assigned_agent', 'attachments', 'comments' => function ($query) {
+            $query->orderBy('created_at', 'asc')->with('user');
+        }])->findOrFail($id);
+
+        $data = [
+            'title' => 'Support Ticket Detail',
+            'ticket' => $ticket
+        ];
+
+        return view('admin.tickets.detail', $data);
+    }
     public function update(Request $request)
     {
         $validate = $request->validate([
@@ -60,15 +73,25 @@ class AdminTicketController extends Controller
 
         $ticket = Ticket::find($ticket_id);
 
-        $ticket->update([
-            'title' => $validate['title'],
-            'description' => $validate['description'],
-            'priority' => $validate['priority'],
-            'assigned_agent_id' => $request->assigned_agent,
-            'status' => $validate['status'],
+        if ($agent) {
+            $data = [
+                'title' => $validate['title'],
+                'description' => $validate['description'],
+                'priority' => $validate['priority'],
+                'assigned_agent_id' => $request->assigned_agent,
+                'status' => $validate['status'],
+            ];
+        } else {
+            $data = [
+                'title' => $validate['title'],
+                'description' => $validate['description'],
+                'priority' => $validate['priority'],
+                'status' => $validate['status'],
 
-        ]);
+            ];
+        }
 
+        $ticket->update($data);
 
         $labels = [];
         foreach ($request->labels as $label) {

@@ -99,7 +99,8 @@
                                                 <div class="flex justify-center space-x-2">
                                                     <a class="bg-green-500 font-bold text-white px-4 py-1 rounded shadow-sm" href="{{ "/admin/tickets/detail/" . $ticket->id }}">View</a>
                                                     <a class="bg-yellow-500 font-bold text-black px-4 py-1 rounded shadow-sm" href="{{ "/admin/tickets/edit/" . $ticket->id }}">Edit</a>
-                                                    <form action="{{ "/admin/tickets/delete/" . $ticket->id  }}" method="post">
+                                                    <form action="{{ "/admin/tickets/delete"  }}" method="post">
+                                                        <input type="hidden" name="id" value="{{ $ticket->id }}">
                                                         <button class="bg-red-500 font-bold text-white px-4 py-1 rounded shadow-sm" type="submit">Delete</button>
                                                     </form>
                                                 </div>

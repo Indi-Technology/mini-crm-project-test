@@ -3,11 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Comment;
-use App\Models\Ticket;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class CommentController extends Controller
+class AdminCommentController extends Controller
 {
     public function save(Request $request)
     {
@@ -16,12 +15,6 @@ class CommentController extends Controller
             'ticket_id' => 'required',
             'attachments.*' => 'nullable|file|mimes:jpg,jpeg,png,gif,svg|max:2048'
         ]);
-
-        $ticket = Ticket::find($validate['ticket_id']);
-
-        if ($ticket->status == "close") {
-            return redirect("/tickets/detail/" . $validate['ticket_id'] . "#comment")->with('error', 'Ticket status is closed');
-        }
 
         $comment = Comment::create([
             'comment_text' => $validate['comment'],
@@ -34,7 +27,7 @@ class CommentController extends Controller
 
         if ($attachments) {
             foreach ($attachments as $attachment) {
-                $path = $attachment->store('comments', 'public');
+                $path = $attachment->store('attachments', 'public');
 
                 $comment->attachments()->create([
                     'file_name' => $attachment->getClientOriginalName(),
@@ -43,6 +36,6 @@ class CommentController extends Controller
             }
         }
 
-        return redirect("/tickets/detail/" . $validate['ticket_id'] . "#comment")->with('success', 'Comment added');
+        return redirect("/admin/tickets/detail/" . $validate['ticket_id'] . "#comment")->with('success', 'Comment added');
     }
 }

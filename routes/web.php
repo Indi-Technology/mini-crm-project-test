@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminCommentController;
 use App\Http\Controllers\AdminTicketController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CommentController;
@@ -53,7 +54,10 @@ Route::middleware(['auth', 'admin'])->group(function () {
 
     Route::get('/admin/tickets', [AdminTicketController::class, 'list'])->name('ticket.list');
     Route::get('/admin/tickets/edit/{id}', [AdminTicketController::class, 'edit'])->name('ticket.edit');
+    Route::get('/admin/tickets/detail/{id}', [AdminTicketController::class, 'detail'])->name('ticket.detail');
     Route::post('/admin/tickets/update', [AdminTicketController::class, 'update'])->name('ticket.update');
+
+    Route::post('/admin/comments/save', [AdminCommentController::class, 'save'])->name('comment.save');
 });
 
 Route::middleware(['auth', 'agent'])->group(function () {
