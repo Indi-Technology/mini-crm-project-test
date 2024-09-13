@@ -150,7 +150,9 @@
                                     <div class="flex flex-col w-full max-w-[50%] leading-1.5 p-4 border-gray-200 bg-blue-100 rounded-tl-xl rounded-bl-xl rounded-br-xl dark:bg-blue-700">
                                         <div class="flex items-center space-x-2 rtl:space-x-reverse">
                                             <span class="text-sm font-semibold text-gray-900 dark:text-white">You ({{$comment->user->name}})</span>
-                                            <span class="text-sm font-normal text-gray-500 dark:text-gray-400">{{$comment->created_at}}</span>
+                                            <span class="text-sm font-normal text-gray-500 dark:text-gray-400">
+                                            {{ Carbon\Carbon::parse($comment->created_at)->format('d F Y H:m') }}
+                                            </span>
                                         </div>
                                         <p class="text-sm font-normal pt-2.5 text-gray-900 dark:text-white">{{ $comment->comment_text }}</p>
                                         @if (!$comment->attachments->isEmpty())
@@ -172,7 +174,10 @@
                                     <div class="flex flex-col w-full max-w-[50%] leading-1.5 p-4 border-gray-200 bg-gray-100 rounded-e-xl rounded-es-xl dark:bg-gray-700">
                                         <div class="flex items-center space-x-2 rtl:space-x-reverse">
                                             <span class="text-sm font-semibold text-gray-900 dark:text-white">{{$comment->user->name}}</span>
-                                            <span class="text-sm font-normal text-gray-500 dark:text-gray-400">{{$comment->created_at}}</span>
+                                            <span class="text-sm font-normal text-gray-500 dark:text-gray-400">
+                                            {{ Carbon\Carbon::parse($comment->created_at)->format('d F Y H:m') }}
+                                            
+                                            </span>
                                         </div>
                                         <p class="text-sm font-normal py-2.5 text-gray-900 dark:text-white">{{$comment->comment_text}}</p>
                                         <span class="text-sm font-normal text-gray-500 dark:text-gray-400">{{$comment->user->role}}</span>

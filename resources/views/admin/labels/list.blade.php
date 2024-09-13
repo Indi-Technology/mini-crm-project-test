@@ -50,7 +50,7 @@
                                                 {{ $label->label_name }}
                                             </td>
                                             <td class="px-6 py-4">
-                                                {{ $label->created_at }}
+                                                {{ Carbon\Carbon::parse($label->created_at)->format('d F Y H:m') }}
                                             </td>
                                             <td class="px-6 py-4 text-center">
                                                 <div class="flex justify-center space-x-2">
