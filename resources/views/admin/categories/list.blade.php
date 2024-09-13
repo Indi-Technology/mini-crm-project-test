@@ -50,7 +50,7 @@
                                                 {{ $category->category_name }}
                                             </td>
                                             <td class="px-6 py-4">
-                                                {{ Carbon\Carbon::parse($category->created_at)->format('d F Y g:i') }}
+                                                {{ Carbon\Carbon::parse($category->created_at)->format('d F Y G:i') }}
                                             </td>
                                             <td class="px-6 py-4 text-center">
                                                 <div class="flex justify-center space-x-2">

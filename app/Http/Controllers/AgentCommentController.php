@@ -3,10 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Comment;
+use App\Models\Ticket;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class AdminCommentController extends Controller
+class AgentCommentController extends Controller
 {
     public function save(Request $request)
     {
@@ -15,6 +16,12 @@ class AdminCommentController extends Controller
             'ticket_id' => 'required',
             'attachments.*' => 'nullable|file|mimes:jpg,jpeg,png,gif,svg|max:2048'
         ]);
+
+        $ticket = Ticket::findOrFail($validate['ticket_id']);
+
+        if ($ticket->assigned_agent_id != Auth::id()) {
+            return redirect('/agent/tickets')->with('error', 'You are not authorized for this ticket');
+        }
 
         $comment = Comment::create([
             'comment_text' => $validate['comment'],
@@ -36,6 +43,6 @@ class AdminCommentController extends Controller
             }
         }
 
-        return redirect("/admin/tickets/detail/" . $validate['ticket_id'] . "#comment")->with('success', 'Comment added');
+        return redirect("/agent/tickets/detail/" . $validate['ticket_id'] . "#comment")->with('success', 'Comment added');
     }
 }

@@ -113,7 +113,7 @@
                                     <td class="px-6 py-4 w-10">:</td>    
                                     <td class="px-6 py-4 w-auto capitalize">
                                        <div class="flex gap-2">
-                                        <form action="{{ "/admin/tickets/status/change"  }}" method="post">
+                                        <form action="{{ "/agent/tickets/status/change"  }}" method="post">
                                             @csrf
                                             <input type="hidden" name="id" value="{{ $ticket->id }}">
                                             <button class="bg-blue-500 font-bold text-white px-4 py-1 rounded shadow-sm" type="submit">
@@ -124,12 +124,7 @@
                                                 @endif
                                             </button>
                                         </form>
-                                        <a class="bg-yellow-500 font-bold text-black px-4 py-1 rounded shadow-sm" href="{{ "/admin/tickets/edit/" . $ticket->id }}">Edit</a>
-                                        <form action="{{ "/admin/tickets/delete"  }}" method="post">
-                                            @csrf
-                                            <input type="hidden" name="id" value="{{ $ticket->id }}">
-                                            <button class="bg-red-500 font-bold text-white px-4 py-1 rounded shadow-sm" type="submit">Delete</button>
-                                        </form>
+                                        <a class="bg-yellow-500 font-bold text-black px-4 py-1 rounded shadow-sm" href="{{ "/agent/tickets/edit/" . $ticket->id }}">Edit</a>
                                        </div>
                                     </td>    
                                 </tr>
@@ -198,7 +193,7 @@
                         @endforeach
                     </div>
                     <div class="mt-6" id="comment">
-                        <form action="/admin/comments/save" method="POST" class="flex items-center mx-auto" enctype="multipart/form-data"> 
+                        <form action="/agent/comments/save" method="POST" class="flex items-center mx-auto" enctype="multipart/form-data"> 
                             @csrf  
                             <label for="simple-search" class="sr-only">Search</label>
                             <div class="relative w-full">
@@ -234,33 +229,6 @@
         </div>
     </div>
 </x-app-layout>
-
-
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const deleteForms = document.querySelectorAll('form[action="/admin/tickets/delete"]');
-
-        deleteForms.forEach(form => {
-            form.addEventListener('submit', function (event) {
-                event.preventDefault(); 
-                
-                Swal.fire({
-                    title: 'Are you sure you want to delete?',
-                    text: "Once data is deleted, it cannot be recovered.",
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#4e73df',
-                    cancelButtonColor: '#e74a3b',
-                    confirmButtonText: 'Yes, Delete Data'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        form.submit(); 
-                    }
-                });
-            });
-        });
-    });
-</script>
 
 <script >
     const gallery = new Viewer(document.getElementById('images'));

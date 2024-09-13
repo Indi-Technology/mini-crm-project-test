@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\AdminCommentController;
 use App\Http\Controllers\AdminTicketController;
+use App\Http\Controllers\AgentCommentController;
+use App\Http\Controllers\AgentTicketController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\DashboardController;
@@ -64,6 +66,12 @@ Route::middleware(['auth', 'admin'])->group(function () {
 
 Route::middleware(['auth', 'agent'])->group(function () {
     Route::get('/agent/dashboard', [DashboardController::class, 'agentdashboard'])->name('agent.dashboard');
+
+    Route::get('/agent/tickets', [AgentTicketController::class, 'list'])->name('ticket.list');
+    Route::get('/agent/tickets/detail/{id}', [AgentTicketController::class, 'detail'])->name('ticket.detail');
+    Route::post('/agent/tickets/status/change', [AgentTicketController::class, 'changestatus'])->name('ticket.changestatus');
+
+    Route::post('/agent/comments/save', [AgentCommentController::class, 'save'])->name('comment.save');
 });
 
 Route::middleware('auth')->group(function () {

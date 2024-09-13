@@ -32,10 +32,10 @@
                                         Status
                                     </th>
                                     <th scope="col" class="px-6 py-3">
-                                        Assigned Agent
+                                        Created By
                                     </th>
                                     <th scope="col" class="px-6 py-3">
-                                        Created By
+                                        Last Update
                                     </th>
                                     <th scope="col" class="px-6 py-3 text-center">
                                         Action
@@ -49,7 +49,7 @@
                                 @if($tickets->isEmpty())
                                     <tr>
                                         <td colspan="8" class="px-6 py-4 text-center text-gray-500 dark:text-gray-400">
-                                            Category Not Found 
+                                            Ticket Not Found 
                                         </td>
                                     </tr>
                                 @else
@@ -84,26 +84,20 @@
                                                 @if ($ticket->status == "open")
                                                     <span class="bg-green-100 text-green-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300 capitalize">{{ $ticket->status }}</span>
                                                 @else
-                                                    <span class="bg-red-100 text-red-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-red-900 dark:text-red-300 capitalize">{{ $ticket->status }}</span>
+                                                    <span class="bg-green-100 text-green-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300 capitalize">{{ $ticket->status }}</span>
                                                 @endif
                                             </td>
                                             <td class="px-6 py-4">
-                                                {{ ($ticket->assigned_agent) ? "(" . $ticket->assigned_agent->id . ") - " . $ticket->assigned_agent->name : "-" }}
+                                                ({{ $ticket->user_id }}) - {{ $ticket->user->name }}
                                             </td>
                                             <td class="px-6 py-4">
-                                                {{ ($ticket->user) ? "(" . $ticket->user->id . ") - " . $ticket->user->name : "-" }}
+                                                {{ Carbon\Carbon::parse($ticket->updated_at)->format('d F Y G:i') }}
                                             </td>
                                             <td class="px-6 py-4 text-center">
                                                 <div class="flex justify-center space-x-2">
-                                                    <a class="bg-green-500 font-bold text-white px-4 py-1 rounded shadow-sm" href="{{ "/admin/tickets/detail/" . $ticket->id }}">View</a>
-                                                    <a class="bg-yellow-500 font-bold text-black px-4 py-1 rounded shadow-sm" href="{{ "/admin/tickets/edit/" . $ticket->id }}">Edit</a>
-                                                    <form action="{{ "/admin/tickets/delete"  }}" method="post">
-                                                        @csrf
-                                                        <input type="hidden" name="id" value="{{ $ticket->id }}">
-                                                        <button class="bg-red-500 font-bold text-white px-4 py-1 rounded shadow-sm" type="submit">Delete</button>
-                                                    </form>
+                                                    <a class="bg-green-500 font-bold text-white px-4 py-1 rounded shadow-sm" href="{{ "/agent/tickets/detail/" . $ticket->id }}">View</a>
+                                                    <a class="bg-yellow-500 font-bold text-black px-4 py-1 rounded shadow-sm" href="{{ "/agent/tickets/edit/" . $ticket->id }}">Edit</a>
                                                 </div>
-                                                
                                             </td>
                                         </tr>
                                     @endforeach
@@ -122,9 +116,10 @@
     </div>
 </x-app-layout>
 
+
 <script>
     document.addEventListener('DOMContentLoaded', function () {
-        const deleteForms = document.querySelectorAll('form[action="/admin/tickets/delete"]');
+        const deleteForms = document.querySelectorAll('form[action="/admin/categories/delete"]');
 
         deleteForms.forEach(form => {
             form.addEventListener('submit', function (event) {
