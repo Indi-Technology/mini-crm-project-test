@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use App\Models\Label;
 use App\Models\Ticket;
+use App\Models\TicketLog;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -93,24 +94,17 @@ class AdminTicketController extends Controller
 
         $ticket->update($data);
 
-        $labels = [];
-        foreach ($request->labels as $label) {
-            array_push($labels, [
-                'ticket_id' => $ticket_id,
-                'label_id' => (int)$label
-            ]);
-        }
-
-        $categories = [];
-        foreach ($request->categories as $category) {
-            array_push($categories, [
-                'ticket_id' => $ticket_id,
-                'category_id' => (int)$category
-            ]);
-        }
+        $labels = array_map('intval', $request->labels);
+        $categories = array_map('intval', $request->categories);
 
         $ticket->labels()->sync($labels);
         $ticket->categories()->sync($categories);
+
+        TicketLog::create([
+            'ticket_id' => $ticket->id,
+            'user_id' => Auth::id(),
+            'action' => 'updated'
+        ]);
 
         return redirect('/admin/tickets')->with('success', 'Ticket successfully updated');
     }
@@ -140,6 +134,11 @@ class AdminTicketController extends Controller
 
         $ticket->update($data);
 
+        TicketLog::create([
+            'ticket_id' => $ticket->id,
+            'user_id' => Auth::id(),
+            'action' => 'updated'
+        ]);
 
         return redirect('/admin/tickets/detail/' . $ticket->id)->with('success', 'Ticket status successfully changed');
     }

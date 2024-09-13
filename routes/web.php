@@ -69,7 +69,10 @@ Route::middleware(['auth', 'agent'])->group(function () {
 
     Route::get('/agent/tickets', [AgentTicketController::class, 'list'])->name('ticket.list');
     Route::get('/agent/tickets/detail/{id}', [AgentTicketController::class, 'detail'])->name('ticket.detail');
+    Route::get('/agent/tickets/edit/{id}', [AgentTicketController::class, 'edit'])->name('ticket.edit');
     Route::post('/agent/tickets/status/change', [AgentTicketController::class, 'changestatus'])->name('ticket.changestatus');
+    Route::post('/agent/tickets/update', [AgentTicketController::class, 'update'])->name('ticket.update');
+
 
     Route::post('/agent/comments/save', [AgentCommentController::class, 'save'])->name('comment.save');
 });

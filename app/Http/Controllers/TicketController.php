@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use App\Models\Label;
 use App\Models\Ticket;
+use App\Models\TicketLog;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
@@ -86,6 +87,12 @@ class TicketController extends Controller
 
         $ticket->labels()->attach($labels);
         $ticket->categories()->attach($categories);
+
+        TicketLog::create([
+            'ticket_id' => $ticketId,
+            'user_id' => Auth::id(),
+            'action' => 'created'
+        ]);
 
         return redirect('/tickets')->with('success', 'Ticket successfully created');
     }
