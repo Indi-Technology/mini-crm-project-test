@@ -3,14 +3,12 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-16">
             <div class="flex">
-                <!-- Logo -->
                 <div class="shrink-0 flex items-center">
                     <a href="{{ route('dashboard') }}">
                         <h1 class="font-bold text-lg">TicketSystem</h1>
                     </a>
                 </div>
 
-                <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                     <x-nav-link :href="route(auth()->user()->role === 'admin' ? 'admin.dashboard' : (auth()->user()->role === 'agent' ? 'agent.dashboard' : 'dashboard'))"  :active="request()->routeIs(auth()->user()->role === 'admin' ? 'admin.dashboard' : (auth()->user()->role === 'agent' ? 'agent.dashboard' : 'dashboard'))">
                         {{ __('Dashboard') }}
@@ -18,6 +16,11 @@
                 </div>
 
                @if (auth()->user()->role === "admin")
+                    <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                        <x-nav-link href="/admin/tickets" :active="request()->is('admin/tickets*')">
+                            {{ __('Tickets') }}
+                        </x-nav-link>
+                    </div>
                     <div  class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                         <x-nav-link href="/admin/categories" :active="request()->is('admin/categories*')">
                             {{ __('Categories') }}
@@ -32,7 +35,8 @@
                         <x-nav-link href="/admin/users" :active="request()->is('admin/users*')">
                             {{ __('Users') }}
                         </x-nav-link>
-                    </div>  
+                    </div>
+                    
                 @elseif (auth()->user()->role === "agent")
                     AGENT
                 @else

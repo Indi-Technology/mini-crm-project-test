@@ -18,7 +18,8 @@ class Ticket extends Model
         'description',
         'priority',
         'user_id',
-        'assigned_agent_id'
+        'assigned_agent_id',
+        'status'
     ];
 
     public function attachments(): MorphMany

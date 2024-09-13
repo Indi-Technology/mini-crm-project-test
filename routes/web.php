@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminTicketController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\DashboardController;
@@ -49,6 +50,10 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/admin/categories/edit/{id}', [CategoryController::class, 'edit'])->name('category.edit');
     Route::post('/admin/categories/delete', [CategoryController::class, 'delete'])->name('category.delete');
     Route::post('/admin/categories/update', [CategoryController::class, 'update'])->name('category.update');
+
+    Route::get('/admin/tickets', [AdminTicketController::class, 'list'])->name('ticket.list');
+    Route::get('/admin/tickets/edit/{id}', [AdminTicketController::class, 'edit'])->name('ticket.edit');
+    Route::post('/admin/tickets/update', [AdminTicketController::class, 'update'])->name('ticket.update');
 });
 
 Route::middleware(['auth', 'agent'])->group(function () {

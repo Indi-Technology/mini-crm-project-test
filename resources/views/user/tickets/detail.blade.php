@@ -151,7 +151,7 @@
                                         <div class="flex items-center space-x-2 rtl:space-x-reverse">
                                             <span class="text-sm font-semibold text-gray-900 dark:text-white">You ({{$comment->user->name}})</span>
                                             <span class="text-sm font-normal text-gray-500 dark:text-gray-400">
-                                            {{ Carbon\Carbon::parse($comment->created_at)->format('d F Y H:m') }}
+                                            {{ Carbon\Carbon::parse($comment->created_at)->format('d F Y h:i') }}
                                             </span>
                                         </div>
                                         <p class="text-sm font-normal pt-2.5 text-gray-900 dark:text-white">{{ $comment->comment_text }}</p>
@@ -175,7 +175,7 @@
                                         <div class="flex items-center space-x-2 rtl:space-x-reverse">
                                             <span class="text-sm font-semibold text-gray-900 dark:text-white">{{$comment->user->name}}</span>
                                             <span class="text-sm font-normal text-gray-500 dark:text-gray-400">
-                                            {{ Carbon\Carbon::parse($comment->created_at)->format('d F Y H:m') }}
+                                            {{ Carbon\Carbon::parse($comment->created_at)->format('d F Y h:i') }}
                                             
                                             </span>
                                         </div>

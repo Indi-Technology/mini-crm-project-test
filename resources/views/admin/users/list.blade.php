@@ -61,7 +61,7 @@
                                             @endif
                                         </td>
                                         <td class="px-6 py-4">
-                                            {{ Carbon\Carbon::parse($user->created_at)->format('d F Y H:m') }}
+                                            {{ Carbon\Carbon::parse($user->created_at)->format('d F Y h:i') }}
                                         </td>
                                         <td class="px-6 py-4 text-center">
                                             <div class="flex justify-center space-x-2">

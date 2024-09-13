@@ -34,7 +34,10 @@
                                         Status
                                     </th>
                                     <th scope="col" class="px-6 py-3">
-                                        Last Update
+                                        Assigned Agent
+                                    </th>
+                                    <th scope="col" class="px-6 py-3">
+                                        Created By
                                     </th>
                                     <th scope="col" class="px-6 py-3 text-center">
                                         Action
@@ -83,16 +86,24 @@
                                                 @if ($ticket->status == "open")
                                                     <span class="bg-green-100 text-green-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300 capitalize">{{ $ticket->status }}</span>
                                                 @else
-                                                    <span class="bg-green-100 text-green-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300 capitalize">{{ $ticket->status }}</span>
+                                                    <span class="bg-red-100 text-red-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-red-900 dark:text-red-300 capitalize">{{ $ticket->status }}</span>
                                                 @endif
                                             </td>
                                             <td class="px-6 py-4">
-                                                {{ Carbon\Carbon::parse($ticket->updated_at)->format('d F Y h:i') }}
+                                                {{ ($ticket->assigned_agent) ? "(" . $ticket->assigned_agent->id . ") - " . $ticket->assigned_agent->name : "-" }}
+                                            </td>
+                                            <td class="px-6 py-4">
+                                                {{ ($ticket->user) ? "(" . $ticket->user->id . ") - " . $ticket->user->name : "-" }}
                                             </td>
                                             <td class="px-6 py-4 text-center">
                                                 <div class="flex justify-center space-x-2">
-                                                    <a class="bg-green-500 font-bold text-white px-4 py-1 rounded shadow-sm" href="{{ "/tickets/detail/" . $ticket->id }}">View</a>
+                                                    <a class="bg-green-500 font-bold text-white px-4 py-1 rounded shadow-sm" href="{{ "/admin/tickets/detail/" . $ticket->id }}">View</a>
+                                                    <a class="bg-yellow-500 font-bold text-black px-4 py-1 rounded shadow-sm" href="{{ "/admin/tickets/edit/" . $ticket->id }}">Edit</a>
+                                                    <form action="{{ "/admin/tickets/delete/" . $ticket->id  }}" method="post">
+                                                        <button class="bg-red-500 font-bold text-white px-4 py-1 rounded shadow-sm" type="submit">Delete</button>
+                                                    </form>
                                                 </div>
+                                                
                                             </td>
                                         </tr>
                                     @endforeach
