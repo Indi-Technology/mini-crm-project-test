@@ -50,7 +50,7 @@
                                                 {{ $category->category_name }}
                                             </td>
                                             <td class="px-6 py-4">
-                                                {{ Carbon\Carbon::parse($category->created_at)->format('d F Y h:i') }}
+                                                {{ Carbon\Carbon::parse($category->created_at)->format('d F Y g:i') }}
                                             </td>
                                             <td class="px-6 py-4 text-center">
                                                 <div class="flex justify-center space-x-2">
@@ -77,18 +77,6 @@
         </div>
     </div>
 </x-app-layout>
-
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script>
-    @if(session('success'))
-        Swal.fire({
-            title: 'Success!',
-            text: '{{ session('success') }}',
-            icon: 'success',
-            confirmButtonText: 'OK'
-        });
-    @endif
-</script>
 
 <script>
     document.addEventListener('DOMContentLoaded', function () {
