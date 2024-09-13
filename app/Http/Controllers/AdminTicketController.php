@@ -12,6 +12,27 @@ use Illuminate\Validation\Rule;
 
 class AdminTicketController extends Controller
 {
+    public function changestatus(Request $request)
+    {
+        $ticket = Ticket::findOrFail($request->id);
+
+        $current_status = $ticket->status;
+
+        if ($current_status == "open") {
+            $data = [
+                'status' => 'close'
+            ];
+        } else {
+            $data = [
+                'status' => 'open'
+            ];
+        }
+
+        $ticket->update($data);
+
+
+        return redirect('/admin/tickets/detail/' . $ticket->id)->with('success', 'Ticket status successfully changed');
+    }
     public function list()
     {
         $data = [

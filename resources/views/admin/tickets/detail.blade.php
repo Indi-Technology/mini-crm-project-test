@@ -113,8 +113,20 @@
                                     <td class="px-6 py-4 w-10">:</td>    
                                     <td class="px-6 py-4 w-auto capitalize">
                                        <div class="flex gap-2">
-                                         <a class="bg-yellow-500 font-bold text-black px-4 py-1 rounded shadow-sm" href="{{ "/admin/tickets/edit/" . $ticket->id }}">Edit</a>
+                                        <form action="{{ "/admin/tickets/status/change"  }}" method="post">
+                                            @csrf
+                                            <input type="hidden" name="id" value="{{ $ticket->id }}">
+                                            <button class="bg-blue-500 font-bold text-white px-4 py-1 rounded shadow-sm" type="submit">
+                                                @if ($ticket->status == "open")
+                                                    Close Ticket
+                                                @else
+                                                    Open Ticket
+                                                @endif
+                                            </button>
+                                        </form>
+                                        <a class="bg-yellow-500 font-bold text-black px-4 py-1 rounded shadow-sm" href="{{ "/admin/tickets/edit/" . $ticket->id }}">Edit</a>
                                         <form action="{{ "/admin/tickets/delete"  }}" method="post">
+                                            @csrf
                                             <input type="hidden" name="id" value="{{ $ticket->id }}">
                                             <button class="bg-red-500 font-bold text-white px-4 py-1 rounded shadow-sm" type="submit">Delete</button>
                                         </form>
@@ -224,17 +236,30 @@
 </x-app-layout>
 
 
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
-    @if(session('success'))
-        Swal.fire({
-            title: 'Success!',
-            text: '{{ session('success') }}',
-            icon: 'success',
-            confirmButtonText: 'OK'
-        });
-    @endif
+    document.addEventListener('DOMContentLoaded', function () {
+        const deleteForms = document.querySelectorAll('form[action="/admin/tickets/delete"]');
 
+        deleteForms.forEach(form => {
+            form.addEventListener('submit', function (event) {
+                event.preventDefault(); 
+                
+                Swal.fire({
+                    title: 'Are you sure you want to delete?',
+                    text: "Once data is deleted, it cannot be recovered.",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#4e73df',
+                    cancelButtonColor: '#e74a3b',
+                    confirmButtonText: 'Yes, Delete Data'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        form.submit(); 
+                    }
+                });
+            });
+        });
+    });
 </script>
 
 <script >
