@@ -114,4 +114,12 @@ class AdminTicketController extends Controller
 
         return redirect('/admin/tickets')->with('success', 'Ticket successfully updated');
     }
+    public function delete(Request $request)
+    {
+        $id = $request->id;
+
+        Ticket::where('id', $id)->delete();
+
+        return redirect("/admin/tickets")->with('success', "Ticket Successfully Deleted");
+    }
 }

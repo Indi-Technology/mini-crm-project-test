@@ -56,6 +56,7 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/admin/tickets/edit/{id}', [AdminTicketController::class, 'edit'])->name('ticket.edit');
     Route::get('/admin/tickets/detail/{id}', [AdminTicketController::class, 'detail'])->name('ticket.detail');
     Route::post('/admin/tickets/update', [AdminTicketController::class, 'update'])->name('ticket.update');
+    Route::post('/admin/tickets/delete', [AdminTicketController::class, 'delete'])->name('ticket.delete');
 
     Route::post('/admin/comments/save', [AdminCommentController::class, 'save'])->name('comment.save');
 });

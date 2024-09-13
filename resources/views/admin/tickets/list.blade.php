@@ -100,6 +100,7 @@
                                                     <a class="bg-green-500 font-bold text-white px-4 py-1 rounded shadow-sm" href="{{ "/admin/tickets/detail/" . $ticket->id }}">View</a>
                                                     <a class="bg-yellow-500 font-bold text-black px-4 py-1 rounded shadow-sm" href="{{ "/admin/tickets/edit/" . $ticket->id }}">Edit</a>
                                                     <form action="{{ "/admin/tickets/delete"  }}" method="post">
+                                                        @csrf
                                                         <input type="hidden" name="id" value="{{ $ticket->id }}">
                                                         <button class="bg-red-500 font-bold text-white px-4 py-1 rounded shadow-sm" type="submit">Delete</button>
                                                     </form>
@@ -125,7 +126,7 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', function () {
-        const deleteForms = document.querySelectorAll('form[action="/admin/categories/delete"]');
+        const deleteForms = document.querySelectorAll('form[action="/admin/tickets/delete"]');
 
         deleteForms.forEach(form => {
             form.addEventListener('submit', function (event) {
