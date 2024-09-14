@@ -12,11 +12,36 @@ use Illuminate\Validation\Rule;
 
 class TicketController extends Controller
 {
-    public function list()
+    public function list(Request $request)
     {
+        $selected_category = $request->query('category');
+        $selected_priority = $request->query('priority');
+        $selected_status = $request->query('status');
+
+        $query = Ticket::with(['categories', 'labels'])->where('user_id', Auth::id());
+
+
+        if ($selected_category) {
+            $query->whereHas('categories', function ($category) use ($selected_category) {
+                $category->where('category_id', $selected_category);
+            });
+        }
+
+        if ($selected_priority && in_array($selected_priority, ['low', 'normal', 'high', 'urgent'])) {
+            $query->where('priority', $selected_priority);
+        }
+
+        if ($selected_status && in_array($selected_status, ['open', 'close'])) {
+            $query->where('status', $selected_status);
+        }
+
         $data = [
             'title' => 'Support Tickets',
-            'tickets' => Ticket::with(['categories', 'labels'])->where('user_id', Auth::id())->orderBy('created_at', 'desc')->paginate(10)
+            'tickets' => $query->orderBy('created_at', 'desc')->paginate(10),
+            'categories' => Category::orderBy('category_name', 'asc')->get(),
+            'selected_category' => $selected_category,
+            'selected_priority' => $selected_priority,
+            'selected_status' => $selected_status
         ];
 
         return view('user.tickets.list', $data);

@@ -11,6 +11,37 @@
                 <div class="p-6 text-gray-900 dark:text-gray-100">
                     <a class="bg-blue-500 text-white font-semibold px-4 py-2 rounded shadow-sm" href="/tickets/create">+ Make Support Tickets</a>
                     
+                    <form method="get">
+                        <div class="flex gap-2 mt-6">
+                                <div class="flex-1">
+                                    <select id="priority" name="priority" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                                        <option value="" selected>Select Priority</option>
+                                        <option {{ ($selected_priority && $selected_priority == "low") ? "selected" : false }} value="low">Low</option>
+                                        <option {{ ($selected_priority && $selected_priority == "normal") ? "selected" : false }} value="normal">Normal</option>
+                                        <option {{ ($selected_priority && $selected_priority == "high") ? "selected" : false }} value="high">High</option>
+                                        <option {{ ($selected_priority && $selected_priority == "urgent") ? "selected" : false }} value="urgent">Urgent</option>
+                                    </select>
+                                </div>
+                                <div class="flex-1">
+                                    <select id="category" name="category" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                                        <option value="" selected>Select Category</option>
+                                        @foreach ($categories as $category)
+                                            <option {{ ($selected_category && $selected_category == $category->id) ? "selected" : false }} value="{{ $category->id }}">{{ $category->category_name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="flex-1">
+                                    <select id="status" name="status" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                                        <option value="" selected>Select Status</option>
+                                        <option {{($selected_status && $selected_status == 'open') ? "selected" : false}} value="open">Open</option>
+                                        <option {{($selected_status && $selected_status == 'close') ? "selected" : false}}  value="close">Close</option>
+                                    </select>
+                                </div>
+                                <div class="flex-[0.3] ">
+                                    <button class="bg-blue-500 h-full w-full text-sm text-white font-semibold px-4 py-2 rounded-lg shadow-sm">Filter</button>
+                                </div>
+                        </div>
+                    </form>
                     <div class="relative overflow-x-auto mt-6">
                         <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                             <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
