@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AdminCommentController;
 use App\Http\Controllers\AdminTicketController;
+use App\Http\Controllers\AdminTicketLogController;
 use App\Http\Controllers\AgentCommentController;
 use App\Http\Controllers\AgentTicketController;
 use App\Http\Controllers\CategoryController;
@@ -26,6 +27,19 @@ Route::middleware(['auth', 'user'])->group(function () {
     Route::post('/tickets/save', [TicketController::class, 'save'])->name('ticket.save');
 
     Route::post('/comments/save', [CommentController::class, 'save'])->name('comment.save');
+});
+
+Route::middleware(['auth', 'agent'])->group(function () {
+    Route::get('/agent/dashboard', [DashboardController::class, 'agentdashboard'])->name('agent.dashboard');
+
+    Route::get('/agent/tickets', [AgentTicketController::class, 'list'])->name('ticket.list');
+    Route::get('/agent/tickets/detail/{id}', [AgentTicketController::class, 'detail'])->name('ticket.detail');
+    Route::get('/agent/tickets/edit/{id}', [AgentTicketController::class, 'edit'])->name('ticket.edit');
+    Route::post('/agent/tickets/status/change', [AgentTicketController::class, 'changestatus'])->name('ticket.changestatus');
+    Route::post('/agent/tickets/update', [AgentTicketController::class, 'update'])->name('ticket.update');
+
+
+    Route::post('/agent/comments/save', [AgentCommentController::class, 'save'])->name('comment.save');
 });
 
 Route::middleware(['auth', 'admin'])->group(function () {
@@ -62,19 +76,9 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::post('/admin/tickets/status/change', [AdminTicketController::class, 'changestatus'])->name('ticket.changestatus');
 
     Route::post('/admin/comments/save', [AdminCommentController::class, 'save'])->name('comment.save');
-});
 
-Route::middleware(['auth', 'agent'])->group(function () {
-    Route::get('/agent/dashboard', [DashboardController::class, 'agentdashboard'])->name('agent.dashboard');
-
-    Route::get('/agent/tickets', [AgentTicketController::class, 'list'])->name('ticket.list');
-    Route::get('/agent/tickets/detail/{id}', [AgentTicketController::class, 'detail'])->name('ticket.detail');
-    Route::get('/agent/tickets/edit/{id}', [AgentTicketController::class, 'edit'])->name('ticket.edit');
-    Route::post('/agent/tickets/status/change', [AgentTicketController::class, 'changestatus'])->name('ticket.changestatus');
-    Route::post('/agent/tickets/update', [AgentTicketController::class, 'update'])->name('ticket.update');
-
-
-    Route::post('/agent/comments/save', [AgentCommentController::class, 'save'])->name('comment.save');
+    Route::get('/admin/logs', [AdminTicketLogController::class, 'list'])->name('logs.list');
+    Route::get('/admin/logs/detail/{id}', [AdminTicketLogController::class, 'detail'])->name('logs.detail');
 });
 
 Route::middleware('auth')->group(function () {

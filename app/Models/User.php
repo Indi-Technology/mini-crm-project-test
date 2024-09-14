@@ -62,4 +62,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(Ticket::class, 'assigned_agent_id');
     }
+
+    public function user_logs()
+    {
+        return $this->hasMany(TicketLog::class, 'user_id');
+    }
 }

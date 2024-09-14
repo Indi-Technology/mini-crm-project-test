@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Comment;
+use App\Models\TicketLog;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -35,6 +36,12 @@ class AdminCommentController extends Controller
                 ]);
             }
         }
+
+        TicketLog::create([
+            'ticket_id' => $validate['ticket_id'],
+            'user_id' => Auth::id(),
+            'action' => 'commented'
+        ]);
 
         return redirect("/admin/tickets/detail/" . $validate['ticket_id'] . "#comment")->with('success', 'Comment added');
     }
