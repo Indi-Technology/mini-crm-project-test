@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\SendCreatedTicket;
 use App\Models\Category;
 use App\Models\Label;
 use App\Models\Ticket;
 use App\Models\TicketLog;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Validation\Rule;
 
 class TicketController extends Controller
@@ -118,6 +121,26 @@ class TicketController extends Controller
             'user_id' => Auth::id(),
             'action' => 'created'
         ]);
+
+        $title = "New Ticket #" . $ticket->id . " Requires Your Attention";
+        $body = "<p>We wanted to inform you that a user has just submitted a ticket that needs your attention.</p>\t<p>You can review and respond to this ticket immediately through the following button:</p>";
+
+        $email_data = [
+            'title' => $title,
+            'body' => $body,
+            'ticket_id' => $ticket->id
+        ];
+
+
+        $admin_emails = [];
+        $admins = User::where(['role' => 'admin'])->get();
+        foreach ($admins as $admin) {
+            array_push($admin_emails, $admin->email);
+        }
+
+        foreach ($admin_emails as $email) {
+            Mail::to($email)->send(new SendCreatedTicket($email_data));
+        }
 
         return redirect('/tickets')->with('success', 'Ticket successfully created');
     }
