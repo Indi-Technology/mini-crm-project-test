@@ -12,10 +12,21 @@ use App\Http\Controllers\LabelController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TicketController;
 use App\Http\Controllers\UserController;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return view('welcome');
+    $user = Auth::user();
+
+    if ($user && $user->role == "admin") {
+        return redirect('/admin/dashboard');
+    } elseif ($user && $user->role == "agent") {
+        return redirect('/agent/dashboard');
+    } elseif ($user && $user->role == "user") {
+        return redirect('/dashboard');
+    } else {
+        return redirect('/login');
+    }
 });
 
 Route::middleware(['auth', 'user'])->group(function () {
