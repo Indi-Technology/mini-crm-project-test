@@ -1,24 +1,19 @@
 <?php
 
+// app/Providers/RouteServiceProvider.php
 namespace App\Providers;
 
-use Illuminate\Support\ServiceProvider;
+use App\Http\Middleware\CheckRole;
+use Illuminate\Support\Facades\Route;
+use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 
-class AppServiceProvider extends ServiceProvider
+class RouteServiceProvider extends ServiceProvider
 {
-    /**
-     * Register any application services.
-     */
-    public function register(): void
+    public function boot()
     {
-        //
-    }
+        parent::boot();
 
-    /**
-     * Bootstrap any application services.
-     */
-    public function boot(): void
-    {
-        //
+        // Daftarkan middleware
+        Route::aliasMiddleware('role', CheckRole::class);
     }
 }
