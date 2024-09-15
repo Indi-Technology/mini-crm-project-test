@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Policies\RolePolicy;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -19,6 +21,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        Gate::define('admin_agent', [RolePolicy::class, 'AdminAndAgent']);
+        Gate::define('admin', [RolePolicy::class, 'Admin']);
+        Gate::define('agent', [RolePolicy::class, 'Agent']);
     }
 }
